@@ -32,14 +32,14 @@ const userSchema = new mongoose.Schema({
 
 //jab v user k data ko save krenge to usse pehle ye function chlega...agar user ka password change hua to hashing ho jaiga
 //pre password ko hash mei convert kr k  database mei save kr dega 
-userSchema.pre("save", async function(next){
+userSchema.pre("save", async function(){
        if(!this.isModified("password")){
-        return next()
+        return
        }  // if password is not changed then return 
 
        const hash = await bcrypt.hash(this.password,10)
        this.password = hash
-       return next()
+       return
 })
 
 userSchema.methods.comparePassword = async function(password){
